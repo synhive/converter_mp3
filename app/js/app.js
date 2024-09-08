@@ -38,6 +38,7 @@ function updateInputCount() {
 
 document.addEventListener('DOMContentLoaded', (event) => {
     generateInputs();
+
     const mainButton = document.querySelector('.traduction__button');
     const mainButtonText = mainButton.querySelector('span');
     const itemButtons = document.querySelectorAll('.traduction__item-button');
@@ -70,4 +71,54 @@ document.addEventListener('DOMContentLoaded', (event) => {
             traductionList.classList.remove('active');
         }
     });
+
+    const form = document.querySelector('#downloadForm');
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); 
+
+        const formData = new FormData(form);
+
+        document.getElementById('loader').style.display = 'block';
+        document.getElementById('progress-container').style.display = 'block';
+        
+        checkProgress();
+
+        fetch('./convert.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.text())
+        .then(result => {
+
+            document.getElementById('loader').style.display = 'none';
+
+            document.querySelector('main').innerHTML = result;
+        })
+        .catch(error => {
+            console.error('Erreur:', error);
+            document.getElementById('loader').style.display = 'none';
+            alert("Erreur lors du traitement. Veuillez réessayer.");
+        });
+    });
+
+    function checkProgress() {
+        const progressInterval = setInterval(() => {
+            fetch('./progress.php')
+                .then(response => response.json())
+                .then(data => {
+                    const progress = data.progress;
+
+                    document.getElementById('progress-text').textContent = `Progression : ${progress}%`;
+                    document.getElementById('progress-bar').value = progress;
+
+                    if (progress >= 100) {
+                        clearInterval(progressInterval);
+                    }
+                })
+                .catch(error => {
+                    clearInterval(progressInterval);
+                    console.error('Erreur lors de la récupération de la progression:', error);
+                });
+        }, 1000);
+    }
 });

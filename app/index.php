@@ -1,5 +1,7 @@
 <?php
 include 'i18n.php';
+$lang = isset($_GET['lang']) ? $_GET['lang'] : 'fr';
+$buttonText = $lang == 'fr' ? 'Fr' : 'En';
 ?>
 <!DOCTYPE html>
 <html lang="<?php echo $lang; ?>">
@@ -10,36 +12,44 @@ include 'i18n.php';
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900&display=swap" rel="stylesheet">
-    <script type="text/javascript" src="./js/app.js"></script>
     <title><?php echo $translations['title']; ?></title>
+    <style>
+        .loading-bar-container {
+            display: none;
+            width: 100%;
+            background-color: #f3f3f3;
+            margin-top: 20px;
+        }
+        .loading-bar {
+            width: 0;
+            height: 30px;
+            background-color: #3498db;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+        }
+    </style>
 </head>
-<style>
-
-</style>
 <body>
     <main>
         <header>
-            <?php
-                $lang = isset($_GET['lang']) ? $_GET['lang'] : 'fr';
-                $buttonText = $lang == 'fr' ? 'Fr' : 'En';
-            ?>
-                <div class="traduction-container">
-                    <button class="traduction__button medium primary">
-                        <span><?php echo $buttonText; ?></span>
-                        <img src="./assets/svg/earth.svg" alt="Circle X Icon">
-                    </button>
-                    <ul class="traduction__list">
-                        <li class="traduction__item">
-                            <button class="traduction__item-button <?php echo $lang == 'fr' ? 'primary' : ''; ?>">Fr</button>
-                        </li>
-                        <li class="traduction__item">
-                            <button class="traduction__item-button <?php echo $lang == 'en' ? 'primary' : ''; ?>">En</button>
-                        </li>
-                    </ul>
-                </div>
+            <div class="traduction-container">
+                <button class="traduction__button medium primary">
+                    <span><?php echo $buttonText; ?></span>
+                    <img src="./assets/svg/earth.svg" alt="Circle X Icon">
+                </button>
+                <ul class="traduction__list">
+                    <li class="traduction__item">
+                        <button class="traduction__item-button <?php echo $lang == 'fr' ? 'primary' : ''; ?>">Fr</button>
+                    </li>
+                    <li class="traduction__item">
+                        <button class="traduction__item-button <?php echo $lang == 'en' ? 'primary' : ''; ?>">En</button>
+                    </li>
+                </ul>
+            </div>
         </header>
         <h1 class="uppercase"><?php echo $translations['heading']; ?></h1>
-        <form action="../src/convert.php" method="post">
+        <form id="downloadForm" action="./convert.php" method="post">
             <div class="line-container">
                 <label for="input-count"><?php echo $translations['line']; ?> :</label>
                 <input type="number" id="input-count" name="input-count" value="1" min="1" max="100" oninput="generateInputs()">
@@ -49,10 +59,13 @@ include 'i18n.php';
                 <button type="submit" class="primary"><?php echo $translations['submit_button']; ?></button>
             </div>
         </form>
+        <div id="loader" style="display: none;">Chargement...</div>
+        <div id="progress-container" style="display: none;">
+            <progress id="progress-bar" value="0" max="100"></progress>
+            <span id="progress-text">Progression : 0%</span>
+        </div>
+
     </main>
+    <script type="text/javascript" src="./js/app.js"></script>
 </body>
 </html>
-
-
-
-

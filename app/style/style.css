@@ -58,6 +58,7 @@ h1{
   text-align: center;
   font-size: 5em;
   color: #2E2E2E;
+  margin: 80px 0;
 }
 
 p,label{
@@ -201,4 +202,22 @@ button:hover,.delete-button:hover{
   .primary{
     font-size: 20px;
   }
+}
+
+#loader {
+  display: none;
+  text-align: center;
+  font-size: 18px;
+  color: #333;
+}
+
+#progress-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+#progress-bar {
+  width: 80%;
+  height: 20px;
+  margin-top: 10px;
 }
