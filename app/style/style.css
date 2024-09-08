@@ -1,0 +1,204 @@
+@font-face {
+  font-family: 'RussoOne';
+  src: url('../font/RussoOne-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Roboto';
+  src: url('../font/Roboto-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('../font/Roboto-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('../font/Roboto-Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
+}
+
+@font-face {
+  font-family: 'Roboto';
+  src: url('../font/Roboto-BoldItalic.ttf') format('truetype');
+  font-weight: 700;
+  font-style: italic;
+}
+
+body{
+  padding: 20px;
+  margin: 0;
+
+}
+
+main{
+  padding: 40px;
+  width: calc(100%-80px);
+  min-height: calc(100vh - 120px);
+  border-radius: 12px;
+  background: rgb(201,200,200);
+  background: -moz-radial-gradient(circle, rgba(201,200,200,1) 0%, rgba(234,234,234,1) 50%, rgba(201,200,200,1) 100%);
+  background: -webkit-radial-gradient(circle, rgba(201,200,200,1) 0%, rgba(234,234,234,1) 50%, rgba(201,200,200,1) 100%);
+  background: radial-gradient(circle, rgba(201,200,200,1) 0%, rgba(234,234,234,1) 50%, rgba(201,200,200,1) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#c9c8c8",endColorstr="#c9c8c8",GradientType=1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h1{
+  font-family: 'RussoOne';
+  text-align: center;
+  font-size: 5em;
+  color: #2E2E2E;
+}
+
+p,label{
+  font-family: 'Roboto';
+  font-size: 1.5em;
+  color: #2E2E2E;
+}
+
+li{
+  list-style: none;
+}
+
+header{
+  position: relative;
+  width: 100%;
+}
+
+form{
+  background-color: white;
+  border-radius: 8px;
+  padding: 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+input[type=number]::-webkit-outer-spin-button,
+input[type=number]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+input[type=number] {
+    -moz-appearance: textfield; /* Pour Firefox */
+}
+
+#input-count {
+  padding: 16px;
+  width: 30px;
+  text-align: center;
+}
+
+.line-container{
+  display: flex;
+  gap: 16px;
+  align-items: center;
+}
+
+input{
+  color: #7E7E7E;
+  background-color: #FAFAFA;
+  border: 1px solid #E2E2E2;
+  font-size: 14px;
+  border-radius: 6px;
+}
+
+#input-container{
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+#input-container input{
+  padding: 16px 24px;
+  min-width: 467px;
+}
+
+button{
+  border-radius: 8px;
+  border: none;
+  padding: 8px 10px;
+  height: fit-content;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  position: relative;
+}
+
+button:hover,.delete-button:hover{
+  cursor: pointer;
+}
+
+.medium{
+  font-size: 14px;
+}
+
+.primary{
+  background-color: #2E2E2E!important;
+  color: white;
+  font-weight: bold;
+}
+
+.uppercase {
+  text-transform: uppercase;
+}
+
+.traduction-container{
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.active {
+  display: flex!important;
+}
+
+.traduction__list{
+  display: none;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: 8px;
+  background-color: white;
+}
+
+.traduction__item-button{
+  background-color: white;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  &:hover{
+    background-color: #2E2E2E;
+    color: white;
+  }
+}
+
+.input-wrapper{
+  display: flex;
+  gap: 16px;
+}
+
+.links{
+  display: flex;
+  gap: 80px;
+  align-items: end;
+  .primary{
+    font-size: 20px;
+  }
+}
