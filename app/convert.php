@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'header.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $urls = $_POST['url'] ?? [];
@@ -47,13 +48,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     updateProgress(100);
+}
 
-    echo "Conversion terminée. Téléchargez les fichiers ci-dessous :<br>";
+?>
+<!-- echo "Conversion terminée. Téléchargez les fichiers ci-dessous :<br>";
     foreach ($createdFiles as $file) {
         echo "<a href='{$file}' download>Télécharger " . basename($file) . "</a><br>";
     }
     if (!empty($createdFiles)) {
         echo "<br><a href='{$zipFile}' download>Télécharger tous les fichiers ici</a>";
-    }
-}
-?>
+    } -->
+<h1><?php echo $translations["download_end"];?></h1>
+<table>
+    <thead>
+        <tr>
+            <th><input type="checkbox" name="select_all" id="select_all"></th>
+            <th>Nom</th>
+            <th>Lien</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <label>
+                    <input type="checkbox" class="input">
+                    <span class="custom-checkbox"></span>
+                </label>
+            </td>
+            <td>oui</td>
+            <td>non</td>
+            <td>Télécharger</td>
+        </tr>
+    </tbody>
+</table>
+<?php include 'footer.php'; ?>
