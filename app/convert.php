@@ -2,6 +2,8 @@
 session_start();
 include 'header.php';
 
+$titlesAndLinks = [];
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $urls = $_POST['url'] ?? [];
     $createdFiles = [];
@@ -12,16 +14,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     session_write_close();
 
     function updateProgress($progress) {
-        // session_start();
-        $_SESSION['progress'] = $progress;
-        session_write_close();
+        $progressData = ['progress' => $progress];
+        file_put_contents('progress.json', json_encode($progressData));
     }
 
     foreach ($urls as $index => $url) {
         if (filter_var($url, FILTER_VALIDATE_URL)) {
-            $progress = intval(($index + 1) / $totalUrls * 100);
-            updateProgress($progress);
-
             $titleCommand = "yt-dlp --get-title $url";
             $title = shell_exec($titleCommand);
             $title = trim((string) $title);
@@ -29,12 +27,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $outputFile = "downloads/{$cleanTitle}.mp3";
             $command = "yt-dlp -x --audio-format mp3 -o '$outputFile' $url";
             shell_exec($command);
-
+    
             if (file_exists($outputFile)) {
                 $createdFiles[] = $outputFile;
+                $titlesAndLinks[] = ['title' => $title, 'link' => $url];
             }
+    
+            // Calcul de la progression
+            $progress = intval(($index + 1) / $totalUrls * 100);
+            updateProgress($progress);  // Écriture de la progression dans le fichier
         }
     }
+    
 
     if (!empty($createdFiles)) {
         $zipFile = 'downloads/all_files.zip';
@@ -46,18 +50,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $zip->close();
         }
     }
-
-    updateProgress(100);
 }
 
 ?>
-<!-- echo "Conversion terminée. Téléchargez les fichiers ci-dessous :<br>";
-    foreach ($createdFiles as $file) {
-        echo "<a href='{$file}' download>Télécharger " . basename($file) . "</a><br>";
-    }
-    if (!empty($createdFiles)) {
-        echo "<br><a href='{$zipFile}' download>Télécharger tous les fichiers ici</a>";
-    } -->
 <h1 id="convert"><?php echo $translations["download_end"];?></h1>
 <div class="card result">
     <table>
@@ -79,6 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </tr>
         </thead>
         <tbody>
+            <?php foreach ($titlesAndLinks as $item): ?>
             <tr>
                 <td>
                     <label>
@@ -86,9 +82,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <span class="custom-checkbox"></span>
                     </label>
                 </td>
-                <td>titre_musique</td>
-                <td>lien_musique</td>
+                <td>
+                    <?php 
+                    $maxLength = 30;
+                    $title = htmlspecialchars($item['title']);
+                    if (mb_strlen($title) > $maxLength) {
+                        $title = mb_strimwidth($title, 0, $maxLength, '...');
+                    }
+                    echo $title;
+                    ?>
+                </td>
+                <td><a href="<?php echo htmlspecialchars($item['link']); ?>" target="_blank">Lien YouTube</a></td>
             </tr>
+            <?php endforeach; ?>
         </tbody>
     </table>
 </div>

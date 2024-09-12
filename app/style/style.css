@@ -239,7 +239,7 @@ button:hover,.delete-button:hover{
 table {
   width: 100%;
   border-collapse: collapse;
-  table-layout: auto; /* Distribute the width based on content */
+  table-layout: auto;
 }
 
 th, td {
@@ -249,7 +249,7 @@ th, td {
 
 th, td {
   width: auto;
-  white-space: nowrap; /* Prevent content from wrapping */
+  white-space: nowrap;
 }
 
 th > div{

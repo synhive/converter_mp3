@@ -7,76 +7,45 @@ function generateInputs() {
     for (let i = 0; i < count; i++) {
         const inputWrapper = document.createElement('div');
         inputWrapper.className = 'input-wrapper';
-
-        const input = document.createElement('input');
-        input.type = 'text';
-        input.placeholder = placeholder;
-        input.name = 'url[]';
-        input.required = true;
-
-        const deleteButton = document.createElement('img');
-        deleteButton.src = './assets/svg/trash-2.svg';
-        deleteButton.alt = 'Delete';
-        deleteButton.className = 'delete-button';
-        deleteButton.addEventListener('click', () => {
+        inputWrapper.innerHTML = `<input type="text" name="url[]" placeholder="${placeholder}" required>
+                                  <img src="./assets/svg/trash-2.svg" alt="Delete" class="delete-button">`;
+        inputWrapper.querySelector('.delete-button').addEventListener('click', () => {
             inputWrapper.remove();
             updateInputCount();
         });
-
-        inputWrapper.appendChild(input);
-        inputWrapper.appendChild(deleteButton);
         container.appendChild(inputWrapper);
     }
 }
 
 function updateInputCount() {
-    const container = document.getElementById('input-container');
     const inputCount = document.getElementById('input-count');
-    const inputWrappers = container.getElementsByClassName('input-wrapper');
-    inputCount.value = inputWrappers.length;
+    inputCount.value = document.querySelectorAll('.input-wrapper').length;
 }
 
-document.addEventListener('DOMContentLoaded', (event) => {
-    const mainButton = document.querySelector('.traduction__button');
-    const mainButtonText = mainButton.querySelector('span');
-    const itemButtons = document.querySelectorAll('.traduction__item-button');
-    const traductionList = document.querySelector('.traduction__list');
+document.addEventListener('DOMContentLoaded', () => {
+    generateInputs();
+
     const inputCount = document.getElementById('input-count');
+    inputCount.addEventListener('input', generateInputs);
 
-    if(!document.getElementById('convert')){
-        generateInputs();
-        inputCount.addEventListener('input', () => {
-            generateInputs();
-        });
+    document.querySelector('#downloadForm').addEventListener('submit', function (event) {
+        event.preventDefault();
+        const formData = new FormData(this);
 
-        const form = document.querySelector('#downloadForm');
-        form.addEventListener('submit', function(event) {
-            event.preventDefault(); 
+        document.getElementById('loader').style.display = 'block';
+        document.getElementById('progress-container').style.display = 'block';
+        checkProgress();
 
-            const formData = new FormData(form);
-
-            document.getElementById('loader').style.display = 'block';
-            document.getElementById('progress-container').style.display = 'block';
-            
-            checkProgress();
-
-            fetch('./convert.php', {
-                method: 'POST',
-                body: formData
-            })
+        fetch('./convert.php', { method: 'POST', body: formData })
             .then(response => response.text())
             .then(result => {
-
                 document.getElementById('loader').style.display = 'none';
-
                 document.querySelector('main').innerHTML = result;
             })
-            .catch(error => {
-                console.error('Erreur:', error);
-                document.getElementById('loader').style.display = 'none';
+            .catch(() => {
                 alert("Erreur lors du traitement. Veuillez réessayer.");
             });
-        });
+    });
 
     function checkProgress() {
         const progressInterval = setInterval(() => {
@@ -84,44 +53,38 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 .then(response => response.json())
                 .then(data => {
                     const progress = data.progress;
-
-                    document.getElementById('progress-text').textContent = `Progression : ${progress}%`;
                     document.getElementById('progress-bar').value = progress;
-
+                    document.getElementById('progress-text').textContent = `Progression : ${progress}%`;
+    
                     if (progress >= 100) {
                         clearInterval(progressInterval);
+    
+                        // Remplacer le loader par un message humoristique
+                        document.getElementById('loader').textContent = "🤖 Presque terminé...";
+                        
+                        // Attendre 2 secondes avant de charger le contenu final
+                        setTimeout(() => {
+                            document.getElementById('loader').textContent = "🚀 Redirection en cours... Accrochez-vous ! 💨";
+                            
+                            // Attendre encore une seconde pour l'effet dramatique
+                            setTimeout(() => {
+                                fetchContent();  // Afficher le contenu après 1 seconde
+                            }, 100);
+                        }, 2000);
                     }
                 })
-                .catch(error => {
-                    clearInterval(progressInterval);
-                    console.error('Erreur lors de la récupération de la progression:', error);
-                });
+                .catch(() => clearInterval(progressInterval));
         }, 1000);
     }
-    }
-
-    itemButtons.forEach(button => {
-        button.addEventListener('click', () => {
-            mainButtonText.textContent = button.textContent + ' ';
-            traductionList.classList.remove('active');
-
-            const selectedLang = button.textContent.trim().toLowerCase();
-            const url = new URL(window.location);
-            url.searchParams.set('lang', selectedLang);
-            window.location = url.toString();
-        });
-    });
-
-    mainButton.addEventListener('click', (event) => {
-        event.stopPropagation();
-        traductionList.classList.toggle('active');
-    });
-
-    document.addEventListener('click', (event) => {
-        if (!traductionList.contains(event.target) && !mainButton.contains(event.target)) {
-            traductionList.classList.remove('active');
-        }
-    });
-
     
+
+    function fetchContent() {
+        fetch('./convert.php', {
+            method: 'POST',
+            body: new FormData(document.querySelector('#downloadForm'))
+        })
+            .then(response => response.text())
+            .then(result => document.querySelector('main').innerHTML = result)
+            .catch(() => alert("Erreur lors du chargement du contenu."));
+    }
 });
