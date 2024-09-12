@@ -1,7 +1,7 @@
 
         <?php include 'header.php'; ?>
         <h1 class="uppercase"><?php echo $translations['heading']; ?></h1>
-        <form id="downloadForm" action="./convert.php" method="post">
+        <form id="downloadForm" class="card" action="./convert.php" method="post">
             <div class="line-container">
                 <label for="input-count"><?php echo $translations['line']; ?> :</label>
                 <input type="number" id="input-count" name="input-count" value="1" min="1" max="100" oninput="generateInputs()">

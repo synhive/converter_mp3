@@ -12,7 +12,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     session_write_close();
 
     function updateProgress($progress) {
-        // session_start();
+        session_start();
         $_SESSION['progress'] = $progress;
         session_write_close();
     }
@@ -31,7 +31,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             shell_exec($command);
 
             if (file_exists($outputFile)) {
-                $createdFiles[] = $outputFile;
+                $createdFiles[] = [
+                    'title' => $title,
+                    'url' => $outputFile
+                ];
             }
         }
     }
@@ -41,7 +44,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $zip = new ZipArchive();
         if ($zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
             foreach ($createdFiles as $file) {
-                $zip->addFile($file, basename($file));
+                $zip->addFile($file['url'], basename($file['url']));
             }
             $zip->close();
         }
@@ -49,15 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     updateProgress(100);
 }
-
 ?>
-<!-- echo "Conversion terminée. Téléchargez les fichiers ci-dessous :<br>";
-    foreach ($createdFiles as $file) {
-        echo "<a href='{$file}' download>Télécharger " . basename($file) . "</a><br>";
-    }
-    if (!empty($createdFiles)) {
-        echo "<br><a href='{$zipFile}' download>Télécharger tous les fichiers ici</a>";
-    } -->
 <h1 id="convert"><?php echo $translations["download_end"];?></h1>
 <div class="card result">
     <table>
@@ -79,16 +74,24 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </tr>
         </thead>
         <tbody>
-            <tr>
-                <td>
-                    <label>
-                        <input type="checkbox" class="input">
-                        <span class="custom-checkbox"></span>
-                    </label>
-                </td>
-                <td>titre_musique</td>
-                <td>lien_musique</td>
-            </tr>
+            <?php if (!empty($createdFiles)): ?>
+                <?php foreach ($createdFiles as $file): ?>
+                    <tr>
+                        <td>
+                            <label>
+                                <input type="checkbox" class="input">
+                                <span class="custom-checkbox"></span>
+                            </label>
+                        </td>
+                        <td><?php echo htmlspecialchars($file['title']); ?></td>
+                        <td><a href="<?php echo htmlspecialchars($file['url']); ?>" download><?php echo htmlspecialchars($file['url']); ?></a></td>
+                    </tr>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <tr>
+                    <td colspan="4">Aucun fichier créé.</td>
+                </tr>
+            <?php endif; ?>
         </tbody>
     </table>
 </div>

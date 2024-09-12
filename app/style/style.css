@@ -61,6 +61,11 @@ h1{
   margin: 80px 0;
 }
 
+th,td{
+  font-family: 'Roboto';
+  font-size: 1em;
+  color: #2E2E2E;
+}
 p,label{
   font-family: 'Roboto';
   font-size: 1.5em;
@@ -76,7 +81,10 @@ header{
   width: 100%;
 }
 
-form{
+.card{
+  &.result{
+    width: 600px;
+  }
   background-color: white;
   border-radius: 8px;
   padding: 40px;
@@ -222,6 +230,35 @@ button:hover,.delete-button:hover{
   margin-top: 10px;
 }
 
+.export{
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto; /* Distribute the width based on content */
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+}
+
+th, td {
+  width: auto;
+  white-space: nowrap; /* Prevent content from wrapping */
+}
+
+th > div{
+  display: flex;
+  justify-content: end;
+  .primary{
+    font-size: 20px;
+  }
+}
 
 /* From Uiverse.io by PriyanshuGupta28 */ 
 .input[type="checkbox"] {
@@ -254,7 +291,6 @@ button:hover,.delete-button:hover{
   opacity: 0;
 }
 
-  /* Show the checkmark when checkbox is checked */
 .input[type="checkbox"]:checked + .custom-checkbox::after {
   opacity: 1;
 }
