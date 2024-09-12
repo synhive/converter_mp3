@@ -40,7 +40,7 @@ body{
 
 main{
   padding: 40px;
-  width: calc(100%-80px);
+  width: calc(100% - 80px);
   min-height: calc(100vh - 120px);
   border-radius: 12px;
   background: rgb(201,200,200);
@@ -82,9 +82,6 @@ header{
 }
 
 .card{
-  &.result{
-    width: 600px;
-  }
   background-color: white;
   border-radius: 8px;
   padding: 40px;
@@ -243,7 +240,7 @@ table {
 }
 
 th, td {
-  padding: 10px;
+  padding: 20px;
   text-align: left;
 }
 
@@ -260,6 +257,12 @@ th > div{
   }
 }
 
+td a{
+  color: #2E2E2E;
+  display: flex;
+  gap: 12px;
+  text-decoration: none;
+}
 /* From Uiverse.io by PriyanshuGupta28 */ 
 .input[type="checkbox"] {
   display: none;

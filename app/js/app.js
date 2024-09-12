@@ -22,8 +22,42 @@ function updateInputCount() {
     inputCount.value = document.querySelectorAll('.input-wrapper').length;
 }
 
+function toto(){
+    console.log("oi");
+};
+
+function toggleTraductionList() {
+    const traductionList = document.querySelector('.traduction__list');
+    traductionList.classList.toggle('active');
+
+    // Empêche la propagation pour éviter la fermeture immédiate de la liste
+    event.stopPropagation();
+}
+
+function changeLanguage(lang) {
+    const mainButtonText = document.querySelector('.traduction__button span');
+    const traductionList = document.querySelector('.traduction__list');
+
+    mainButtonText.textContent = lang.toUpperCase() + ' ';
+    traductionList.classList.remove('active');
+
+    // Mise à jour de l'URL avec le paramètre de langue sélectionnée
+    const url = new URL(window.location);
+    url.searchParams.set('lang', lang);
+    window.location = url.toString();
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
     generateInputs();
+    document.addEventListener('click', (event) => {
+        const traductionList = document.querySelector('.traduction__list');
+        const mainButton = document.querySelector('.traduction__button');
+    
+        if (!traductionList.contains(event.target) && !mainButton.contains(event.target)) {
+            traductionList.classList.remove('active');
+        }
+    });
 
     const inputCount = document.getElementById('input-count');
     inputCount.addEventListener('input', generateInputs);

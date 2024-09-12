@@ -1,5 +1,6 @@
 <?php
 session_start();
+include 'i18n.php';
 include 'header.php';
 
 $titlesAndLinks = [];
@@ -84,7 +85,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </td>
                 <td>
                     <?php 
-                    $maxLength = 30;
+                    $maxLength = 60;
                     $title = htmlspecialchars($item['title']);
                     if (mb_strlen($title) > $maxLength) {
                         $title = mb_strimwidth($title, 0, $maxLength, '...');
@@ -92,7 +93,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     echo $title;
                     ?>
                 </td>
-                <td><a href="<?php echo htmlspecialchars($item['link']); ?>" target="_blank">Lien YouTube</a></td>
+                <td>
+                    <a href="<?php echo htmlspecialchars($item['link']); ?>" target="_blank">
+                        Ouvrir le lien
+                        <img src="./assets/svg/square-arrow-out-up-right.svg">
+                    </a>
+                </td>
             </tr>
             <?php endforeach; ?>
         </tbody>

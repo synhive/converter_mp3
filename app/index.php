@@ -1,3 +1,7 @@
+<?php
+include 'i18n.php';
+   
+?>
 <!DOCTYPE html>
     <html lang="<?php echo $lang; ?>">
     <head>
