@@ -48,4 +48,4 @@ include 'i18n.php';
             <progress id="progress-bar" value="0" max="100"></progress>
             <span id="progress-text">Progression : 0%</span>
         </div>
-    <?php include 'footer.php'; ?>
+<?php include 'footer.php'; ?>

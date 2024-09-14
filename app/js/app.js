@@ -22,15 +22,10 @@ function updateInputCount() {
     inputCount.value = document.querySelectorAll('.input-wrapper').length;
 }
 
-function toto(){
-    console.log("oi");
-};
 
 function toggleTraductionList() {
     const traductionList = document.querySelector('.traduction__list');
     traductionList.classList.toggle('active');
-
-    // Empêche la propagation pour éviter la fermeture immédiate de la liste
     event.stopPropagation();
 }
 
@@ -41,12 +36,33 @@ function changeLanguage(lang) {
     mainButtonText.textContent = lang.toUpperCase() + ' ';
     traductionList.classList.remove('active');
 
-    // Mise à jour de l'URL avec le paramètre de langue sélectionnée
     const url = new URL(window.location);
     url.searchParams.set('lang', lang);
     window.location = url.toString();
 }
 
+function toggleCheckAll() {
+    const mainCheckbox = document.querySelector('thead input[type="checkbox"]');
+    const checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = mainCheckbox.checked;
+    });
+}
+
+function toggleCheck(event) {
+    const checkbox = event.target;
+    const mainCheckbox = document.querySelector('thead input[type="checkbox"]');
+    const checkboxes = document.querySelectorAll('tbody input[type="checkbox"]');
+
+    if (!mainCheckbox.checked && checkbox.checked) {
+        mainCheckbox.checked = true;
+    }
+
+    const allUnchecked = Array.from(checkboxes).every(cb => !cb.checked);
+    if (allUnchecked) {
+        mainCheckbox.checked = false;
+    }
+}
 
 document.addEventListener('DOMContentLoaded', () => {
     generateInputs();
@@ -92,24 +108,25 @@ document.addEventListener('DOMContentLoaded', () => {
     
                     if (progress >= 100) {
                         clearInterval(progressInterval);
-    
-                        // Remplacer le loader par un message humoristique
+                        console.log("Terminé !");
                         document.getElementById('loader').textContent = "🤖 Presque terminé...";
                         
-                        // Attendre 2 secondes avant de charger le contenu final
                         setTimeout(() => {
                             document.getElementById('loader').textContent = "🚀 Redirection en cours... Accrochez-vous ! 💨";
                             
-                            // Attendre encore une seconde pour l'effet dramatique
                             setTimeout(() => {
-                                fetchContent();  // Afficher le contenu après 1 seconde
-                            }, 100);
+                                fetchContent();
+                            }, 1000);
                         }, 2000);
                     }
                 })
                 .catch(() => clearInterval(progressInterval));
         }, 1000);
     }
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        checkProgress();
+    });
     
 
     function fetchContent() {

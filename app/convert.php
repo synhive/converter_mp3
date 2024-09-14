@@ -5,22 +5,26 @@ include 'header.php';
 
 $titlesAndLinks = [];
 
+function updateProgress($progress) {
+    $progressFile = 'progress.json';
+    file_put_contents($progressFile, json_encode(['progress' => $progress]));
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $urls = $_POST['url'] ?? [];
     $createdFiles = [];
     $totalUrls = count($urls);
 
     $_SESSION['progress'] = 0;
+    updateProgress(0);
 
     session_write_close();
 
-    function updateProgress($progress) {
-        $progressData = ['progress' => $progress];
-        file_put_contents('progress.json', json_encode($progressData));
-    }
-
     foreach ($urls as $index => $url) {
         if (filter_var($url, FILTER_VALIDATE_URL)) {
+            $progress = intval(($index + 1) / $totalUrls * 100);
+            updateProgress($progress);
+            
             $titleCommand = "yt-dlp --get-title $url";
             $title = shell_exec($titleCommand);
             $title = trim((string) $title);
@@ -33,10 +37,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 $createdFiles[] = $outputFile;
                 $titlesAndLinks[] = ['title' => $title, 'link' => $url];
             }
-    
-            // Calcul de la progression
-            $progress = intval(($index + 1) / $totalUrls * 100);
-            updateProgress($progress);  // Écriture de la progression dans le fichier
+            
         }
     }
     
@@ -51,6 +52,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $zip->close();
         }
     }
+
+    updateProgress(100);
 }
 
 ?>
@@ -61,7 +64,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <tr>
                 <th>
                     <label>
-                        <input type="checkbox" class="input">
+                        <input type="checkbox" class="input" onclick="toggleCheckAll()">
                         <span class="custom-checkbox"></span>
                     </label>
                 </th>
@@ -79,7 +82,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <tr>
                 <td>
                     <label>
-                        <input type="checkbox" class="input">
+                        <input type="checkbox" class="input" onclick="toggleCheck(event)">
                         <span class="custom-checkbox"></span>
                     </label>
                 </td>
