@@ -261,13 +261,14 @@ td a{
   color: #2E2E2E;
   display: flex;
   gap: 12px;
+  align-items: center;
   text-decoration: none;
 }
+
 /* From Uiverse.io by PriyanshuGupta28 */ 
 .input[type="checkbox"] {
   display: none;
 }
-
 
   /* Style for the custom checkbox */
 .custom-checkbox {

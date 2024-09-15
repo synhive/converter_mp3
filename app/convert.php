@@ -35,26 +35,27 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     
             if (file_exists($outputFile)) {
                 $createdFiles[] = $outputFile;
-                $titlesAndLinks[] = ['title' => $title, 'link' => $url];
+                $titlesAndLinks[] = ['title' => $title, 'link' => $url,'cleanTitle' => $cleanTitle];
             }
             
         }
     }
     
 
-    if (!empty($createdFiles)) {
-        $zipFile = 'downloads/all_files.zip';
-        $zip = new ZipArchive();
-        if ($zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
-            foreach ($createdFiles as $file) {
-                $zip->addFile($file, basename($file));
-            }
-            $zip->close();
-        }
-    }
+    // if (!empty($createdFiles)) {
+    //     $zipFile = 'downloads/all_files.zip';
+    //     $zip = new ZipArchive();
+    //     if ($zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
+    //         foreach ($createdFiles as $file) {
+    //             $zip->addFile($file, basename($file));
+    //         }
+    //         $zip->close();
+    //     }
+    // }
 
     updateProgress(100);
 }
+
 
 ?>
 <h1 id="convert"><?php echo $translations["download_end"];?></h1>
@@ -64,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <tr>
                 <th>
                     <label>
-                        <input type="checkbox" class="input" onclick="toggleCheckAll()">
+                        <input type="checkbox" class="input" data-file="<?php echo htmlspecialchars($item['file']); ?>" onclick="toggleCheckAll(event)">
                         <span class="custom-checkbox"></span>
                     </label>
                 </th>
@@ -72,7 +73,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <th>Lien</th>
                 <th>
                     <div>
-                        <button class="primary">Télécharger</button>
+                        <button class="primary" onclick="download()">Télécharger</button>
                     </div>
                 </th>
             </tr>
@@ -82,7 +83,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <tr>
                 <td>
                     <label>
-                        <input type="checkbox" class="input" onclick="toggleCheck(event)">
+                    
+                        <input type="checkbox" class="input" data-file="<?php echo htmlspecialchars($item['cleanTitle']).'.mp3'; ?>" onclick="toggleCheck(event)">
                         <span class="custom-checkbox"></span>
                     </label>
                 </td>
