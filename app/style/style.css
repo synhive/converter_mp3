@@ -40,7 +40,7 @@ body{
 
 main{
   padding: 40px;
-  width: calc(100%-80px);
+  width: calc(100% - 80px);
   min-height: calc(100vh - 120px);
   border-radius: 12px;
   background: rgb(201,200,200);
@@ -61,6 +61,11 @@ h1{
   margin: 80px 0;
 }
 
+th,td{
+  font-family: 'Roboto';
+  font-size: 1em;
+  color: #2E2E2E;
+}
 p,label{
   font-family: 'Roboto';
   font-size: 1.5em;
@@ -76,7 +81,7 @@ header{
   width: 100%;
 }
 
-form{
+.card{
   background-color: white;
   border-radius: 8px;
   padding: 40px;
@@ -222,12 +227,48 @@ button:hover,.delete-button:hover{
   margin-top: 10px;
 }
 
+.export{
+  width: 100%;
+  display: flex;
+  justify-content: end;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: auto;
+}
+
+th, td {
+  padding: 20px;
+  text-align: left;
+}
+
+th, td {
+  width: auto;
+  white-space: nowrap;
+}
+
+th > div{
+  display: flex;
+  justify-content: end;
+  .primary{
+    font-size: 20px;
+  }
+}
+
+td a{
+  color: #2E2E2E;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  text-decoration: none;
+}
 
 /* From Uiverse.io by PriyanshuGupta28 */ 
 .input[type="checkbox"] {
   display: none;
 }
-
 
   /* Style for the custom checkbox */
 .custom-checkbox {
@@ -254,7 +295,6 @@ button:hover,.delete-button:hover{
   opacity: 0;
 }
 
-  /* Show the checkmark when checkbox is checked */
 .input[type="checkbox"]:checked + .custom-checkbox::after {
   opacity: 1;
 }

@@ -1,7 +1,9 @@
 <?php
-session_start();
-
-$progress = isset($_SESSION['progress']) ? $_SESSION['progress'] : 0;
-
 header('Content-Type: application/json');
-echo json_encode(['progress' => $progress]);
+
+$progressFile = 'progress.json';
+if (file_exists($progressFile)) {
+    echo file_get_contents($progressFile);
+} else {
+    echo json_encode(['progress' => 0]);
+}
