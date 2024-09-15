@@ -1,8 +1,14 @@
 <?php
-    $lang = isset($_GET['lang']) ? $_GET['lang'] : 'fr';
+    $lang = $_SESSION['lang'] ?? 'fr';
+
+    if (isset($_GET['lang'])) {
+        $lang = $_GET['lang'];
+        $_SESSION['lang'] = $lang;
+    }
     $buttonText = $lang == 'fr' ? 'FR' : 'EN';
 ?>
 <header>
+
     <div class="traduction-container">
         <button class="traduction__button medium primary" onclick="toggleTraductionList()">
             <span><?php echo $buttonText; ?></span>

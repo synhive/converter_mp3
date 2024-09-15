@@ -17,3 +17,4 @@ if (isset($_GET['lang'])) {
 }
 
 $translations = loadTranslations($lang);
+?>
