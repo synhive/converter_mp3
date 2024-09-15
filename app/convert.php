@@ -40,18 +40,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             
         }
     }
-    
-
-    // if (!empty($createdFiles)) {
-    //     $zipFile = 'downloads/all_files.zip';
-    //     $zip = new ZipArchive();
-    //     if ($zip->open($zipFile, ZipArchive::CREATE | ZipArchive::OVERWRITE) === TRUE) {
-    //         foreach ($createdFiles as $file) {
-    //             $zip->addFile($file, basename($file));
-    //         }
-    //         $zip->close();
-    //     }
-    // }
 
     updateProgress(100);
 }
@@ -69,11 +57,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <span class="custom-checkbox"></span>
                     </label>
                 </th>
-                <th>Nom</th>
-                <th>Lien</th>
+                <th> <?php echo $translations['name']; ?></th>
+                <th> <?php echo $translations['link']; ?></th>
                 <th>
                     <div>
-                        <button class="primary" onclick="download()">Télécharger</button>
+                        <button class="primary" onclick="download()"><?php echo $translations['download']; ?></button>
                     </div>
                 </th>
             </tr>
@@ -100,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </td>
                 <td>
                     <a href="<?php echo htmlspecialchars($item['link']); ?>" target="_blank">
-                        Ouvrir le lien
+                        <?php echo $translations['openLink']; ?>
                         <img src="./assets/svg/square-arrow-out-up-right.svg">
                     </a>
                 </td>

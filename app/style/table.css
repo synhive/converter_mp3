@@ -1,0 +1,32 @@
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: auto;
+  }
+  
+  th, td {
+    padding: 20px;
+    text-align: left;
+    font-family: 'Roboto';
+    font-size: 1em;
+    color: #2E2E2E;
+  }
+  
+  th, td {
+    width: auto;
+    white-space: nowrap;
+  }
+  
+  th > div {
+    display: flex;
+    justify-content: end;
+  }
+  
+  td a {
+    color: #2E2E2E;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    text-decoration: none;
+  }
+  
