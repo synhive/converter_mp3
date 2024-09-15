@@ -1,10 +1,8 @@
 FROM php:8.2-apache
 
-# Installer les extensions PHP nécessaires et activer le module rewrite
 RUN docker-php-ext-install mysqli pdo pdo_mysql \
     && a2enmod rewrite
 
-# Installer les dépendances nécessaires, y compris libzip-dev pour l'extension zip
 RUN apt-get update && apt-get install -y \
     ffmpeg \
     python3 \
@@ -14,20 +12,27 @@ RUN apt-get update && apt-get install -y \
     libzip-dev \
     zip \
     unzip \
+    cron \
     && apt-get clean
 
-# Installer l'extension zip pour PHP
 RUN docker-php-ext-install zip
 
-# Configurer l'environnement Python
 RUN python3 -m venv /opt/venv
 ENV PATH="/opt/venv/bin:$PATH"
 
-# Installer yt-dlp via pip
 RUN pip install --no-cache-dir yt-dlp
 
-# Copier le code de l'application dans le conteneur
 COPY app/ /var/www/html/
 
-# Exposer le port 1605
+RUN echo "#!/bin/bash\nrm -rf /var/www/html/downloads/*" > /usr/local/bin/clean_downloads.sh && \
+    chmod +x /usr/local/bin/clean_downloads.sh
+
+RUN echo "30 6 * * * root /usr/local/bin/clean_downloads.sh > /dev/null 2>&1" > /etc/cron.d/clean_downloads
+
+RUN chmod 0644 /etc/cron.d/clean_downloads
+
+RUN touch /var/log/cron.log
+
 EXPOSE 1605
+
+CMD ["sh", "-c", "cron && apache2-foreground"]

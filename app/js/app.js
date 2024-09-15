@@ -60,7 +60,9 @@ function download() {
                 document.body.appendChild(link);
                 link.click();
                 document.body.removeChild(link);
-                setupFileDeletion([...files, 'all_files.zip']);
+                window.addEventListener('beforeunload', () => {
+                    setupFileDeletion([...files, 'all_files.zip']);
+                });
             });
         }
     } else {
@@ -105,23 +107,15 @@ function createZip(files) {
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
-        setupFileDeletion([...files, 'all_files.zip']);
+        window.addEventListener('beforeunload', () => {
+            deleteFiles([...files, 'all_files.zip']);
+        });
     })
     .catch(() => {
         alert('Erreur lors de la création du fichier ZIP.');
     });
 }
 
-
-function setupFileDeletion(files) {
-    window.addEventListener('beforeunload', () => {
-        deleteFiles(files);
-    });
-
-    setTimeout(() => {
-        deleteFiles(files);
-    }, 3600000);
-}
 
 function toggleCheckAll() {
     const mainCheckbox = document.querySelector('thead input[type="checkbox"]');
