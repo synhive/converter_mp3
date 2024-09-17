@@ -48,53 +48,57 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 <h1 id="convert"><?php echo $translations["download_end"];?></h1>
 <div class="card result">
-    <table>
-        <thead>
-            <tr>
-                <th>
-                    <label>
-                        <input type="checkbox" class="input" data-file="<?php echo htmlspecialchars($item['file']); ?>" onclick="toggleCheckAll(event)">
-                        <span class="custom-checkbox"></span>
-                    </label>
-                </th>
-                <th> <?php echo $translations['name']; ?></th>
-                <th> <?php echo $translations['link']; ?></th>
-                <th>
-                    <div>
-                        <button class="primary" onclick="download()"><?php echo $translations['download']; ?></button>
-                    </div>
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($titlesAndLinks as $item): ?>
-            <tr>
-                <td>
-                    <label>
-                    
-                        <input type="checkbox" class="input" data-file="<?php echo htmlspecialchars($item['cleanTitle']).'.mp3'; ?>" onclick="toggleCheck(event)">
-                        <span class="custom-checkbox"></span>
-                    </label>
-                </td>
-                <td>
-                    <?php 
-                    $maxLength = 60;
-                    $title = htmlspecialchars($item['title']);
-                    if (mb_strlen($title) > $maxLength) {
-                        $title = mb_strimwidth($title, 0, $maxLength, '...');
-                    }
-                    echo $title;
-                    ?>
-                </td>
-                <td>
-                    <a href="<?php echo htmlspecialchars($item['link']); ?>" target="_blank">
-                        <?php echo $translations['openLink']; ?>
-                        <img src="./assets/svg/square-arrow-out-up-right.svg">
-                    </a>
-                </td>
-            </tr>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+    <div>
+        <button class="primary mobile" onclick="download()"><?php echo $translations['download']; ?></button>
+    </div>
+    <div class="table-responsive">
+        <table>
+            <thead>
+                <tr>
+                    <th>
+                        <label>
+                            <input type="checkbox" class="input" data-file="<?php echo htmlspecialchars($item['file']); ?>" onclick="toggleCheckAll(event)">
+                            <span class="custom-checkbox"></span>
+                        </label>
+                    </th>
+                    <th><?php echo $translations['name']; ?></th>
+                    <th><?php echo $translations['link']; ?></th>
+                    <th>
+                        <div>
+                            <button class="primary" onclick="download()"><?php echo $translations['download']; ?></button>
+                        </div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <?php foreach ($titlesAndLinks as $item): ?>
+                <tr>
+                    <td>
+                        <label>
+                            <input type="checkbox" class="input" data-file="<?php echo htmlspecialchars($item['cleanTitle']).'.mp3'; ?>" onclick="toggleCheck(event)">
+                            <span class="custom-checkbox"></span>
+                        </label>
+                    </td>
+                    <td>
+                        <?php 
+                        $maxLength = 60;
+                        $title = htmlspecialchars($item['title']);
+                        if (mb_strlen($title) > $maxLength) {
+                            $title = mb_strimwidth($title, 0, $maxLength, '...');
+                        }
+                        echo $title;
+                        ?>
+                    </td>
+                    <td>
+                        <a href="<?php echo htmlspecialchars($item['link']); ?>" target="_blank">
+                            <?php echo $translations['openLink']; ?>
+                            <img src="./assets/svg/square-arrow-out-up-right.svg">
+                        </a>
+                    </td>
+                </tr>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
 </div>
 <?php include 'footer.php'; ?>
