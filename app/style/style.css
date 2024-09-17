@@ -138,6 +138,7 @@ button{
   height: fit-content;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 16px;
   position: relative;
 }
@@ -297,4 +298,76 @@ td a{
 
 .input[type="checkbox"]:checked + .custom-checkbox::after {
   opacity: 1;
+}
+
+button.mobile{
+  display: none;
+}
+
+@media screen and (max-width:900px) {
+
+  body{
+    padding: 0px;
+  }
+
+  h1{
+    font-size: 2.2em;
+    margin-top: 90px;
+  }
+
+  main{
+    border-radius: 0;
+    padding: 20px; 
+    width: calc(100% - 40px);
+    min-height: calc(100vh - 40px)
+  }
+
+  #downloadForm{
+    padding: 24px;
+    width: calc(100% - 40px);
+    .links{
+      flex-direction: column;
+      gap: 48px;
+      #input-container{
+        width: 100%;
+        input{
+          width: 100%;
+          min-width: 0%;
+        }
+      }
+      button.primary{
+        width: 100%;
+        
+      }
+      .delete-button{
+        display: none;
+      }
+    }
+  }
+
+  .card.result{
+    padding: 24px;
+    width: calc(100% - 40px);
+    gap: 24px;
+  }
+
+  .table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .table-responsive table {
+      width: 100%;
+      min-width: 600px; 
+  }
+
+  table button{
+    display: none;
+  }
+
+  button.mobile{
+    font-size: 20px;
+    width: 100%;
+    display: flex;
+  }
 }
