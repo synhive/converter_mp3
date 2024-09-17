@@ -27,7 +27,6 @@ session_start();
                 <button type="submit" class="primary"><?php echo $translations['submit_button']; ?></button>
             </div>
         </form>
-        <p>toto</p>
         <div id="loader" style="display: none;"><?php echo $translations['loading']; ?></div>
         <div id="progress-container" style="display: none;">
             <progress id="progress-bar" value="0" max="100"></progress>
