@@ -4,6 +4,10 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - 1608:80
+      - "1608:80"  
     volumes:
-      - ./app:/var/www/html
+      - ./app:/var/www/html 
+    environment:
+      - APACHE_LOG_DIR=/var/log/apache2
+    command: sh -c "cron && apache2-foreground"  
+    restart: always
