@@ -2,7 +2,7 @@ services:
   app:
     image: ghcr.io/synhive/converter_mp3:latest
     ports:
-      - "1609:80"  # Garde le port qui fonctionne
+      - "1608:80"  # Garde le port qui fonctionne
     # ON SUPPRIME LE VOLUME ./app QUI CAUSE LE FORBIDDEN
     environment:
       - APACHE_LOG_DIR=/var/log/apache2
