@@ -1,11 +1,9 @@
 services:
   app:
-    # On remplace 'build' par 'image'
     image: ghcr.io/synhive/converter_mp3:latest
     ports:
-      - "1608:80"  
-    volumes:
-      - ./app:/var/www/html
+      - "1609:80"  # Garde le port qui fonctionne
+    # ON SUPPRIME LE VOLUME ./app QUI CAUSE LE FORBIDDEN
     environment:
       - APACHE_LOG_DIR=/var/log/apache2
     command: sh -c "cron && apache2-foreground"  
