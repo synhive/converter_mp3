@@ -1,12 +1,11 @@
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    # On remplace 'build' par 'image'
+    image: ghcr.io/synhive/converter_mp3:latest
     ports:
       - "1608:80"  
     volumes:
-      - ./app:/var/www/html  # <-- AJOUTEZ CETTE LIGNE
+      - ./app:/var/www/html
     environment:
       - APACHE_LOG_DIR=/var/log/apache2
     command: sh -c "cron && apache2-foreground"  
