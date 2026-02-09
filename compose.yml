@@ -5,6 +5,8 @@ services:
       dockerfile: Dockerfile
     ports:
       - "1608:80"  
+    volumes:
+      - ./app:/var/www/html  # <-- AJOUTEZ CETTE LIGNE
     environment:
       - APACHE_LOG_DIR=/var/log/apache2
     command: sh -c "cron && apache2-foreground"  
